@@ -15,9 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import musician_create
+from .views import musician_create,musician_list, musician_edit
+
 
 urlpatterns = [
     # http://127.0.0.1:8000/exam
     path("musician/create/", musician_create, name="musician_create"),
+    path("musician/list/", musician_list, name="musician_list"),
+    path("musician/<int:id>/edit/", musician_edit, name="musician_edit"),
 ]

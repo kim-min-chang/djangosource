@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form action="" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-group mb-3">
+        {{field.label_tag}}
+        <input type="{field.widget_type}" class="form-control" id="{{field.id_for_label}}" name="{{field.name}}" value="{{field.value}}">
+      </div>
+      {% if field.errors %}
+        {{field.errors}}
+      {% endif %}
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">전송</button>
+  </form>
+{% endblock content %}

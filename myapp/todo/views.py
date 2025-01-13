@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Todo
+from forms import TodoForm
 
 
 def todo_list(request):
@@ -20,21 +21,27 @@ def todo_detail(request, id):
 
 def todo_register(request):
     if request.method == "POST":
+        # ModelForm 을 사용 안하는 경우
         # 폼 안의 내용 개별로 가져오기
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        important = request.POST.get("important")
+        # title = request.POST.get("title")
+        # description = request.POST.get("description")
+        # important = request.POST.get("important")
         
-        print(f"post {title},{description},{important},{completed}")
+        # print(f"post {title},{description},{important},{completed}")
 
-        if important:
-            todo = Todo(title=title,description=description,important=True)
-        else:
-            todo = Todo(title=title,description=description)
-        todo.save()
-        return redirect("todo_list")
+        # if important:
+        #     todo = Todo(title=title,description=description,important=True)
+        # else:
+        #     todo = Todo(title=title,description=description)
+        # todo.save()
+        form = TodoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("todo_list")      
     else:
-        return render(request, "todo/create.html")
+        form = TodoForm()
+
+    return render(request, "todo/create.html",{"form":form})
 
 
 def todo_edit(request, id):
@@ -43,31 +50,35 @@ def todo_edit(request, id):
 
     if request.method == "POST":
         # 폼 안의 내용 개별로 가져오기
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        important = request.POST.get("important")
-        completed = request.POST.get("completed")
+        # title = request.POST.get("title")
+        # description = request.POST.get("description")
+        # important = request.POST.get("important")
+        # completed = request.POST.get("completed")
 
-        print(f"post {title},{description},{important},{completed}")
+        # print(f"post {title},{description},{important},{completed}")
 
-        todo.title = title
-        todo.description = description
+        # todo.title = title
+        # todo.description = description
 
-        if important:
-            todo.important = True
-        else:
-            todo.important = False
+        # if important:
+        #     todo.important = True
+        # else:
+        #     todo.important = False
 
-        if completed:
-            todo.completed = True
-        else:
-            todo.completed = False
+        # if completed:
+        #     todo.completed = True
+        # else:
+        #     todo.completed = False
 
-        todo.save()
+        # todo.save()
+        form = TodoForm(request.POST,instance=todo)
+        if form.is_valid():
+            form.save()
         return redirect("todo_detail", id=todo.id)
 
     else:
-        return render(request, "todo/edit.html", {"todo": todo})
+        form = TodoForm(instance=todo)
+    return render(request, "todo/edit.html", {"form": form})
 
 
 def todo_done(request):

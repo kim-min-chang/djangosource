@@ -11,3 +11,4 @@ class MusicianForm(forms.ModelForm):
     class Meta:
         model = Musician
         fields= "__all__"
+        # fields= ['name'] # 특정필드만 사용시
