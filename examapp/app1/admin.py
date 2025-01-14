@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Person, Post
+from .models import Person, Post, Comment
 
 # admin 사이트에서 관리할 모델 등록
 # 1) admin.site.register(모델명) - 세부지정 불가
@@ -26,3 +26,8 @@ class PostAdmin(admin.ModelAdmin):
     # 조회할때 상세보기 링크의 위치를 바꾼다
     list_display_links = ("author_name",)
     search_fields =("title",)
+
+@admin.register(Comment)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ("id", "message","created_at")
+    list_display_links = ("message",)    
