@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g=_3sfax*-ef=v0o&p4$wfd)d+e2w&ifd)pgc4-ur@r_&n#vro'
+SECRET_KEY = 'django-insecure-v=2k%04%1)^8g^z=%_9x3b7gn6!em^etc(t#z9&)5%geu8r9rv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',    
-    'book',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +55,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR,"templates"],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,16 +117,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR, "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = Path(BASE_DIR, "media")
-
 # 로그인, 로그아웃 성공시 경로 변경
 LOGIN_REDIRECT_URL="/"
-LOGOUT_REDIRECT_URL="/" 
+LOGOUT_REDIRECT_URL="/"
+
+# 이메일 발송 설정
+DEFAULT_FROM_EMAIL = "kmc5064@naver.com"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST ="smtp.naver.com"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = "kmc5064"
+EMAIL_HOST_PASSWORD = "kmc1617"
+EMAIL_PORT= 465
+
