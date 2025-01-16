@@ -28,8 +28,12 @@ def users_register(requset):
         form  = UserRegisterForm(requset.POST)
 
         if form.is_valid():
-            form.save()
-            return redirect("users:login")
+            user = form.save(commit=False)
+            # user의 gender 요소가 비어있는지 확인
+            if form.cleaned_data["gender"] =="":
+                user.gender = 2
+            user.save()
+            return redirect("blogs:list")
     else:
         form = UserRegisterForm()
     return render(requset, "users/register",{"form":form})
