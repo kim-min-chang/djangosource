@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <!-- Post detail-->
+      <h3 class="border_bottom pb-2">
+        <!--제목-->
+        {{post.title}}
+      </h3>
+    </div>
+  </div>
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <h3 class="border_bottom pb-2">
+        <!--이미지-->
+        {% if post.image %}
+          <img src="{{post.image.url}}" alt="" class="mx-auto d-block">
+        {% endif %}
+      </h3>
+    </div>
+  </div>
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <p>
+        <!--본문-->
+        {{post.content}}
+      </p>
+    </div>
+  </div>
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      {% if user.is_authenticated %}
+        <a href="{% url "blogs:update" post.pk %}" class="btn btn-info">수정</a>
+      {% endif %}
+      <a href="{% url "blogs:list" %}" class="btn btn-success">목록</a>
+    </div>
+  </div>
+  <!--좋아요-->
+  <!--tag-->
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7 border_bottom p-3">
+      <span class="badge rounded-pill text-bg-dark"></span>
+    </div>
+  </div>
+  <!--댓글목록-->
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10">
+      <div class="card mb-5">
+        <div class="card-header">
+          <i class="fa-regular fa-comments"></i>
+          comment
+        </div>
+        {% for comment in post.comment_set.all %}
+          <div class="card-body">
+            <h5 class="card-title">
+              <!--댓글내용-->
+              {{comment.content}}
+            </h5>
+            <div class="card-text text-end fs-6 bg-light">
+              <!--댓글 작성자-->
+              {{comment.user.name}}-({{comment.created_at}})
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!--댓글 등록-->
+  {% if user.is_authenticated %}
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7 border_bottom p-3">
+        <!--에러 메세지-->
+        {% if messages %}
+          {% for msg in messages %}
+            <div class="alert alert-danger">
+              <strong>{{msg}}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
+        <form action="{% url "blogs:comment_create" %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="post_pk" value="{{post.pk}}">
+          <div class="form-group mb-3">
+            <textarea name="content" id="content" class="form-control" row="5"></textarea>
+          </div>
+          <button class="btn btn-secondary">댓글 작성</button>
+        </form>
+      </div>
+    </div>
+  {% endif %}
+{% endblock content %}

@@ -8,7 +8,7 @@
       <div class="form-group mb-3">
         <label for="{{field.id_for_label}}">{{field.label}}</label>
         {% if field.name == 'gender' %}
-          <select name="{{field.name}}" id="{{field.id_for_label}}" class="form-control">
+          <select name="{{field.name}}" id="{{field.id_for_label}}" class="form-select">
             {% for option in field %}
               {{option}}
             {% endfor %}
@@ -19,6 +19,8 @@
         <span class="text-danger small">{{field.help_text}}</span>
       </div>
     {% endfor %}
-    <button class="btn btn-primary">회원가입</button>
+    <div class="form-group mb-3">
+      <button class="btn btn-primary">회원가입</button>
+    </div>
   </form>
 {% endblock content %}
