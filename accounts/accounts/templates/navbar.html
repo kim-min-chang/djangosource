@@ -14,17 +14,17 @@
             <a class="nav-link" href="{% url "login" %}">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url "password_reset" %}">비밀번호 초기화</a>
+            <a class="nav-link" href="{% url "password_reset" %}">비밀번호초기화</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url "register" %}">Register</a>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="#" id="logout">Logout</a>
+            <a class="nav-link" href="{% url "password_change" %}">비밀번호변경</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url "password_change" %}">비밀번호변경</a>
+            <a class="nav-link" href="#" id="logout">Logout</a>
           </li>
         {% endif %}
         <li class="nav-item dropdown">

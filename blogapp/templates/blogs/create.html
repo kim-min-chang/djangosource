@@ -2,25 +2,24 @@
 {% block content %}
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <div class="col-md-10 col-lg-8 col-xl-7">
-      <form method="post" action="" enctype="multipart/form-data">
+      <form action="" method="post" enctype="multipart/form-data">
         {% include "form_errors.html" %}
         {% csrf_token %}
         {% for field in form %}
           <div class="form-group mb-3">
             <label for="{{field.id_for_label}}">{{field.label}}</label>
             {% if field.name == 'image' %}
-              <input type="file" class="form-control" name="{{field.name}}" id="{{field.id_for_label}}">
+              <input type="file" name="{{field.name}}" id="{{field.id_for_label}}" class="form-control">
             {% elif field.name == 'content' %}
-              <textarea name="{{field.name}}" id="{{field.id_for_label}}" class="form-control" row="10"></textarea>
+              <textarea name="{{field.name}}" id="{{field.id_for_label}}" class="form-control" rows="10"></textarea>
             {% else %}
               <input type="{{field.widget_type}}" class="form-control" id="{{field.id_for_label}}" name="{{field.name}}" placeholder="{{field.label}}" value="{{field.value|default_if_none:''}}">
             {% endif %}
             <span class="text-danger small">{{field.help_text}}</span>
           </div>
         {% endfor %}
-        <div>
-          <button type="submit" class="btn btn-success">등록</button>
-          <a href="{% url "blogs:list" %}" class="btn btn-primary">목록</a>
+        <div class="form-group mb-3">
+          <button class="btn btn-primary">Post</button>
         </div>
       </form>
     </div>

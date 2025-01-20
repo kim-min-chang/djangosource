@@ -14,7 +14,7 @@
           </a>
           <p class="post-meta">
             Posted by
-            <a href="">{{post.user.name}}</a>
+            <a href="#!">{{post.user.name}}</a>
             {{post.created_at}}
           </p>
         </div>
@@ -23,7 +23,19 @@
       {% endfor %}
       <!-- Pager-->
       <div class="d-flex justify-content-end mb-4">
-        <a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a>
+        {% if post_list.has_previous %}
+          <a class="btn btn-primary text-uppercase" href="?page={{post_list.previous_page_number}}">← Previous Posts</a>
+        {% endif %}
+        <!-- 2 / 30 -->
+        <a class="btn btn-primary text-uppercase" href="#">
+          {{post_list.number}}
+          /
+          {{post_list.paginator.num_pages}}
+        </a>
+
+        {% if post_list.has_next %}
+          <a class="btn btn-primary text-uppercase" href="?page={{post_list.next_page_number}}">Next Posts →</a>
+        {% endif %}
       </div>
     </div>
   </div>
