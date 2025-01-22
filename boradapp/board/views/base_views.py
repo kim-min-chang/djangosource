@@ -1,24 +1,52 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from ..models import Question
+from ..models import Question ,QuestionCount
 from django.core.paginator import Paginator
-
+from django.db.models import Q,Count
+from tools.utils import get_client_ip
 
 
 def detail(request,id):
     question = get_object_or_404(Question,id=id)
 
+    page = request.GET.get("page",1)
+    # 검색
+    keyword = request.GET.get("keyword","")
+
+    so = request.GET.get("so","")
+
+    ip = get_client_ip()
+    cnt = QuestionCount.objects.filter(ip=ip,question=question)
+
+    if cnt == 0:
+        qc = QuestionCount(ip=ip,question=question)
+        qc.save()
+        if question.view_cnt:
+            question.view_cnt =+1
+        else:
+            question.view_cnt =1
+        question.save()
+
+    context = {
+        "question":question,
+        "page":page,
+        "keyword":keyword,
+        "so":so,
+    }
+    return render(request, "board/question_detail.html", context)
+
     # is_liked = False
     # if post.likes.filter(id=request.user.id).exists():
     #     is_liked = True
     # answer = get_object_or_404(Answer,id=id)
-
-    return render(request,"board/question_detail.html",{"question":question})
+    
 
 def index(request):
 
     page = request.GET.get("page",1)
     # 검색
     keyword = request.GET.get("keyword","")
+
+    so = request.GET.get("so","")
 
     objects = Question.objects.order_by("-created_at")
 

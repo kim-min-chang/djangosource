@@ -16,7 +16,7 @@ def answer_modify(request, id):
             answer.save()
                         
             # return redirect("board:detail",id=answer.Question.id)
-            return redirect("{}#answer_{}".format(resolve_url("board:detail",answer.Question.id),answer.id))
+            return redirect("{}?page={}&keyword={}&so={}#answer_{}".format(resolve_url("board:detail",answer.Question.id),answer.id))
     else:
         form = AnswerForm(instance=answer)
     return render(request,"board/answer_form.html",{"form":form})
@@ -32,6 +32,12 @@ def answer_delete(requeset,id):
 @login_required(login_url="users:login")
 def answer_create(request, id):
 
+    page= request.GET.get("page",1)
+
+    keyword = request.GET.get("keyword","")
+
+    so = request.GET.get("so","")
+    
     question = get_object_or_404(Question, id=id)
 
     # form 사용방식

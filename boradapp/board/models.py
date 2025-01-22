@@ -14,6 +14,7 @@ class Question(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name="작성자")
     # 추천
     voter = models.ManyToManyField(User,related_name="voter_question",verbose_name="추천")
+    view_cnt = models.IntegerField(default=0)
 
     def __str__(self):
         return self.subject
@@ -43,4 +44,9 @@ class Comment(models.Model):
     answer = models.ForeignKey(Answer,on_delete=models.CASCADE,verbose_name="답변",null=True,blank=True)
     
     
+class QuestionCount(models.Model):
+    ip = models.CharField(max_length=30,verbose_name="ip주소")
+    question = models.ForeignKey(Question,on_delete=models.CASCADE,verbose_name="질문")
     
+    def __unicode__(self):
+        return self.ip
